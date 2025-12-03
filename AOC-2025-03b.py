@@ -1,5 +1,8 @@
 # AOC 2025-3b
 # find maximum voltage
+test=0
+debug=0
+day="3a"
 
 def findMax( s, n ):
     answer = ""
@@ -11,19 +14,33 @@ def findMax( s, n ):
                 mPos = pos
                 mx = s[mPos]
         answer = answer + mx
-        #print( n, answer )
+        if debug:
+            print( n, answer )
         mPos += 1
         n -= 1
     return answer
-            
-#file = open("AOC-2025-03a-test.txt", "r").readlines()
-file = open("AOC-2025-03a.txt", "r").readlines()
+
+filename = "AOC-2025-" + day
+if test:
+    filename += "-test"
+filename += ".txt"
+file = open( filename, "r" ).readlines()
+
+total = 0
+for line in file:
+    battery = line.rsplit("\n")[0]
+    m = findMax( battery, 2 )
+    total += int(m)
+    print( battery, m, total )
+print( "03a Answer is", total )
+print()
+
 total = 0
 for line in file:
     battery = line.rsplit("\n")[0]
     m = findMax( battery, 12 )
     total += int(m)
     print( battery, m, total )
-print( "Answer is", total )
+print( "03b Answer is", total )
 
 
