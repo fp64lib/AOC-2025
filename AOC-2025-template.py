@@ -9,17 +9,22 @@ def doWork( s ):
 	#...
     return answer
 
-filename = "AOC-2025-" + day
+filename = "AOC-2025-" + day[:len(day)-1]
 if test:
     filename += "-test"
 filename += ".txt"
-file = open( filename, "r" ).readlines()
+print( day, filename )
 
 total = 0
-for line in file:
-    l = line.rsplit("\n")[0]
-    m = doWork( l )
-    total += int(m)
-    print( l, m, total )
-print( day, "Answer is", total )
 
+with open( filename, "r" ) as file
+    for line in file:
+        l = line.rsplit("\n")[0]
+        
+        m = doWork( l )
+        
+        total += int(m)
+        
+        print( l, m, total )
+
+print( day, "Answer is", total )
