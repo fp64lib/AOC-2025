@@ -34,10 +34,14 @@ class Corner:
         else:
             return -1
 
-class Area:
+class Rectangle:
     def __init__( self, el1, el2 ):
         self.el1, self.el2 = el1, el2
-        self.area = Area.area( el1, el2 )
+        x1 = min(self.el1.x, self.el2.x)
+        x2 =´max(self.el1.x, self.el2.x)
+        y1 = min(self.el1.y, self.el2.y)
+        y2 =´max(self.el1.y, self.el2.y)
+        self.area = Rectangle.area( el1, el2 )
         
     def __lt__(self, other):
         return self.area < other.area
@@ -52,6 +56,28 @@ class Area:
     def area(el1, el2):
         dx, dy = abs(el1.x-el2.x)+1, abs(el1.y-el2.y)+1
         return dx*dy
+        
+    def check( self, x1, y1, x2, y2, checkVertical )
+        if checkVertical:
+            # assume y1 = y2, touching is not intersecting
+            if self.x1 >= x2 or self.x2 <= x1:
+                # line is right or left of us, no intersection
+                return False 
+            elif self.y1 >= y2 or self.y2 <= y1
+                # line below or above us, no intersection
+                return False
+            else:
+                # we intersect            
+                return True                # 
+        
+    def intersects( self, other ):
+        # works only for rectangles       
+        cut =         self.check( other.x1, other.y1, other.x2, other.y1, True ) # top
+        cut = cut and self.check( other.x2, other.y1, other.x2, other.y2, False ) # right
+        cut = cut and self.check( other.x1, other.y2, other.x2, other.y2, True ) # bottom
+        cut = cut and self.check( other.x1, other.y1, other.x2, other.y2, False ) # left
+        return cut
+   
 
 filename = "AOC-2025-" + day[:len(day)-1]
 if test:
@@ -64,42 +90,7 @@ grid = []
 d = []
 minx = miny = 1000000000
 maxx = maxy = 0
-
-def findNext( prev ):
-    # find next element clock wise
-    choose = [el for el in grid if el.x == prev.x or el.y == prev.y ]
-    print( choose )
-    found = prev
-    for el in choose:
-        print( prev, el )
-        if el != prev:
-            if el.x == prev.x:
-                if el.x > found.x:
-                    found = el
-            elif el.y == prev.y:
-                if el.y > found.y:
-                    found = el
-    print( prev, found )
-    return prev
     
-def findOutline():
-    outline = []
-    prev = grid.pop(0)
-    outline.append(prev)
-    while len(grid) > 0:
-        # we have to take care of the search direction
-        # first right, then down, then left, then up
-        # test against bounding box
-        el = findNext( prev )
-        if el == prev:
-            print( "*** circle detected", prev )
-            return outLine
-        if debug:
-            print( el )
-        outLine.append( el )
-        prev = el
-    return outLine            
-
 with open( filename, "r" ) as file:
     for line in file:
         ints = list(map(int,line.split(",")))
@@ -120,16 +111,10 @@ with open( filename, "r" ) as file:
     topLeft = Corner( minx, miny, -1 )
     bottomRight = Corner( maxx, maxy, -2 )
     print( "Bounding box:", topLeft, bottomRight )
-    
-    outLine = findOutline()
-    print( "outline", outLine )
-    
-    outLine = findOutline()
-    print( outLine )
-        
+           
     for i in range(0,len(grid)-1):
         for j in range(i+1, len(grid)):
-            d.append( Area( grid[i], grid[j] ) )
+            d.append( Rectangle( grid[i], grid[j] ) )
 
     if debug:
         for i in range(0,10):
@@ -143,8 +128,15 @@ with open( filename, "r" ) as file:
         print()    
         
     print( len(d), d[0] )
-
-
+    
+    # find all x and y lines
+    # check first rectangle against all vertices
+    
+    for el in d:
+        for g in grid:
+            ok = 
+    
+    
     total = d[0].area
 
 
