@@ -4,6 +4,10 @@ test=0
 debug=0
 day="12"
 
+# wild guess from test data: how much area is wasted by combining tiles
+# 0.2 = 20% of tiles
+wasteFactor = 0.2 + 1
+
 filename = "AOC-2025-" + day
 if test:
     filename += "-test"
@@ -39,6 +43,9 @@ def doShapesFit( content ):
 
         quantities = list(map(int, quantity.split()))
         size = sum(q * m for q, m in zip( quantities, minimumSpace ))
+        if debug:
+            print( "original size", size )
+        size *= wasteFactor
 
         if size > area:
             if debug > 1:
